@@ -75,3 +75,10 @@ body {
     border-top: 1px solid #444;
   }
 }
+
+.highlight {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
