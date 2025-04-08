@@ -28,5 +28,11 @@ document.addEventListener('keydown', function(event) {
 
 // الاستماع لزر الرجوع في الهاتف
 window.addEventListener('popstate', function(event) {
-  closeModal();
+  var modal = document.getElementById("imageModal");
+  if (modal.style.display !== "none") {  // إذا كان المودال مفتوحًا
+    event.preventDefault();  // إيقاف الرجوع للصفحة السابقة
+    closeModal();  // إغلاق المودال
+  } else {
+    history.back();  // إذا كان المودال مغلقًا، يرجع للصفحة السابقة
+  }
 });
