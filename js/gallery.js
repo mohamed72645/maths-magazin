@@ -15,3 +15,14 @@ function openModal(imgElement) {
     var modal = document.getElementById("imageModal");
     modal.style.display = "none";
   }
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === "Escape") {
+    closeModal();
+  }
+});
+
+// الاستماع لزر الرجوع في الهاتف
+window.addEventListener('popstate', function(event) {
+  closeModal();
+});
