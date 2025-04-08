@@ -36,3 +36,11 @@ window.addEventListener('popstate', function(event) {
     history.back();  // إذا كان المودال مغلقًا، يرجع للصفحة السابقة
   }
 });
+
+// الاستماع للضغط على مكان فارغ خارج الصورة لإغلاق المودال
+var modal = document.getElementById("imageModal");
+modal.addEventListener('click', function(event) {
+  if (event.target === modal) {  // تحقق إذا كان الضغط على الخلفية فقط (وليس على الصورة نفسها)
+    closeModal();
+  }
+});
