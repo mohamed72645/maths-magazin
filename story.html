@@ -5,6 +5,100 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>قصص</title>
   <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/stories.css" />
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Tahoma", sans-serif;
+      background-color: #f4f6f8;
+    }
+
+    .author-list {
+      padding: 20px;
+      background-color: #dceefb;
+      text-align: center;
+    }
+
+    .author-list select {
+      padding: 8px 15px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #3498db;
+      background-color: #fff;
+      color: #3498db;
+    }
+
+    .stories-container {
+      padding: 30px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .story-card {
+      width: 66.66%;
+      max-width: 800px;
+      border-radius: 15px;
+      padding: 20px;
+      box-sizing: border-box;
+      line-height: 1.7;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    .story-card.light {
+      background-color: #ffffff;
+    }
+
+    .story-card.dark {
+      background-color: #e2ecf3;
+    }
+
+    .story-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .story-author {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .story-text {
+      font-size: 16px;
+      color: #222;
+    }
+
+    /* زر العودة للأعلى */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      display: none; /* يظهر عند التمرير */
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s;
+    }
+
+    .scroll-to-top:hover {
+      background-color: #2980b9;
+    }
+  </style>
 </head>
 <body>
 
@@ -17,10 +111,106 @@
     </div>
     <div class="menu" id="menu">
       <a href="index.html">الصفحة الرئيسية</a>
-      <a href="art.html" >فن</a>
-     <a  class="highlight">قصص</a>
+      <a href="art.html">فن</a>
+      <a class="highlight">قصص</a>
     </div>
   </nav>
+
+  <!-- ✅ قائمة منسدلة لأسماء الكتاب -->
+  <div class="author-list" id="authorList">
+    <select id="authorSelect">
+      <option value="" disabled selected>اختر كاتباً</option>
+    </select>
+  </div>
+
+  <main class="stories-container" id="storiesContainer">
+    <!-- القصص يتم تحميلها هنا -->
+  </main>
+
+  <!-- زر العودة للأعلى -->
+  <button class="scroll-to-top" id="scrollToTopBtn" onclick="scrollToTop()">↑</button>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD6wEUfAQm3RxsU6mEit06utNlyP6p_0B0",
+      authDomain: "maths-magazine.firebaseapp.com",
+      databaseURL: "https://maths-magazine-default-rtdb.firebaseio.com",
+      projectId: "maths-magazine",
+      storageBucket: "maths-magazine.firebasestorage.app",
+      messagingSenderId: "979802161519",
+      appId: "1:979802161519:web:380979e2ce5b3c4cfa689a",
+      measurementId: "G-JMD1FR9CL5"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const container = document.getElementById("storiesContainer");
+    const authorSelect = document.getElementById("authorSelect");
+
+    db.ref("stories").once("value", (snapshot) => {
+      let index = 0;
+      const usedAuthors = new Set();
+
+      snapshot.forEach((child) => {
+        const story = child.val();
+        const storyId = `story-${story.author}-${index}`; // معرف فريد لكل قصة بناءً على الكاتب ورقم القصة
+
+        // ✅ إنشاء كرت القصة
+        const card = document.createElement("div");
+        card.className = "story-card " + (index % 2 === 0 ? "light" : "dark");
+        card.id = storyId;
+
+        card.innerHTML = `
+          <h3 class="story-title">${story.title}</h3>
+          <p class="story-author">بقلم: ${story.author}</p>
+          <p class="story-text">${story.content.replace(/\n/g, '<br>')}</p>
+        `;
+        container.appendChild(card);
+
+        // ✅ إضافة اسم الكاتب للقائمة المنسدلة (مرة واحدة فقط)
+        if (!usedAuthors.has(story.author)) {
+          usedAuthors.add(story.author);
+          const option = document.createElement("option");
+          option.value = story.author;
+          option.textContent = story.author;
+          authorSelect.appendChild(option);
+        }
+
+        index++;
+      });
+    });
+
+    // When an author is selected, scroll to their story
+    document.getElementById("authorSelect").addEventListener("change", function() {
+      const selectedAuthor = this.value;
+
+      // البحث عن القصص الخاصة بالكاتب
+      const stories = document.querySelectorAll(".story-card");
+
+      // التمرير إلى أول قصة للكاتب المحدد
+      stories.forEach(story => {
+        if (story.querySelector(".story-author").textContent.includes(selectedAuthor)) {
+          story.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Function to show/hide scroll-to-top button
+    window.onscroll = function () {
+      const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        scrollToTopBtn.style.display = "block";
+      } else {
+        scrollToTopBtn.style.display = "none";
+      }
+    };
+
+    // Function to scroll to top
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
 
   <script src="js/navbar.js"></script>
 </body>
