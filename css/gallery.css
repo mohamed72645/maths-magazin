@@ -1,71 +1,98 @@
-body {
-    font-family: Tahoma, sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0px ;
-  }
-  
-  .gallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-  }
-  
-  .gallery img {
-    width: 200px;
-    height: 150px;
-    object-fit: cover;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: transform 0.3s;
-  }
-  
-  .gallery img:hover {
-    transform: scale(1.05);
-  }
-  
-  /* النافذة العائمة */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    padding-top: 60px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.8);
-  }
-  
-  .modal-content {
-    margin: auto;
-    display: block;
-    max-width: 90%;
-    max-height: 80vh;
-    border-radius: 10px;
-  }
-  
-  /* زر الإغلاق */
-  .close, .download {
-    position: fixed;
-    top: 20px;
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
-    background-color: rgba(0,0,0,0.5);
-    padding: 10px 15px;
-    border-radius: 50%;
-    z-index: 1000;
-  }
-  
-  .close {
-    right: 20px;
-  }
-  
-  .download {
-    right: 70px;
-    text-decoration: none;
-  }
-  
+/* تصميم المعرض */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-card {
+  position: relative;
+  margin: 10px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 5px;
+  text-align: center;
+}
+
+img {
+  max-width: 200px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* تنسيق الكابشن تحت الصورة في المعرض */
+.image-card p {
+  color: black; /* لون النص أسود */
+  font-weight: bold; /* عريض */
+  font-size: 1.2rem; /* تكبير الخط قليلاً */
+  margin-top: 10px;
+}
+
+/* المودال */
+.modal {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* تكبير الصورة عند فتح المودال */
+.modal-content {
+  max-width: 95%; /* جعل الصورة أكبر */
+  max-height: 95%; /* جعل الصورة أكبر */
+  display: block;
+  margin: 0 auto; /* محاذاة الصورة في المنتصف */
+}
+
+/* كابشن المودال */
+#modalCaption {
+  color: white; /* لون النص أبيض */
+  font-weight: bold; /* عريض */
+  font-size: 1.5rem; /* تكبير الخط داخل المودال */
+  text-align: center;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.5); /* خلفية داكنة للكابشن لتمييزه */
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+/* وضع زر التحميل وزر الإغلاق بجانب بعضهما */
+.modal-header {
+  display: flex;
+  justify-content: space-between; /* توزيع الأزرار */
+  width: 100%;
+  padding: 10px 20px;
+  position: absolute;
+  top: 0;
+}
+
+.download {
+  color: white;
+  font-size: 20px;
+  font-weight: bold; /* جعل الخط عريض */
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.download:hover {
+  opacity: 0.8;
+}
+
+.close {
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/* إضافة التباعد بين الأزرار */
+.modal-header .download {
+  margin-left: 10px; /* تباعد بين الزرّين */
+}
