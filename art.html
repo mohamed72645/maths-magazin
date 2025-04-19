@@ -23,19 +23,19 @@
     </div>
   </nav>
 
-  
-
-  <div class="gallery">
-    <img src="images/photo1.jpg" alt="صورة 1" onclick="openModal(this)">
-  </div>
+  <!-- معرض الصور الديناميكي من Firebase -->
+  <div class="gallery" id="gallery"></div>
 
   <!-- النافذة العائمة -->
   <div class="modal" id="imageModal">
     <span class="close" onclick="closeModal()">&times;</span>
-    <a class="download" id="downloadBtn" download>⤓</img></a>
+    <a class="download" id="downloadBtn" download>⤓</a>
     <img class="modal-content" id="modalImg">
+    <div id="modalCaption"></div> <!-- الكابشن داخل المودال -->
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <script src="js/gallery.js"></script>
   <script src="js/navbar.js"></script>
 </body>
