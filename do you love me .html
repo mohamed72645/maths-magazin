@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة حب</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #fff0f6;
+            color: #e91e63;
+            overflow: hidden; /* منع التمرير الأفقي أو الرأسي */
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .message {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 100px;
+            margin-bottom: 20px;
+            background-color: #f8bbd0;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 30px;
+            border: none;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 120px;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .btn-yes, .btn-no {
+            background-color: #f06292;
+            color: white;
+        }
+
+        .btn-no {
+            position: absolute;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.5s ease;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px;
+            background-color: rgba(255, 105, 180, 0.9);
+            color: white;
+            border-radius: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .popup:before {
+            content: '❤️';
+            font-size: 50px;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        @media (max-width: 600px) {
+            .message {
+                font-size: 24px;
+            }
+
+            .btn {
+                font-size: 18px;
+                padding: 12px 20px;
+            }
+
+            .popup {
+                font-size: 20px;
+                padding: 25px;
+            }
+
+            .popup:before {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message">
+        <p>هل تحبني؟</p>
+    </div>
+
+    <div class="buttons">
+        <button class="btn btn-yes" id="yes-btn">نعم</button>
+        <button class="btn btn-no" id="no-btn">لا</button>
+    </div>
+
+    <div class="popup" id="popup">
+        <button class="popup-close" id="popup-close">X</button>
+        <p>أنا كمان أحبك!</p>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const popup = document.getElementById('popup');
+        const popupClose = document.getElementById('popup-close');
+
+        // تحريك زر "لا" عند مرور الماوس
+        noBtn.addEventListener('mouseenter', () => {
+            const randomX = Math.floor(Math.random() * (window.innerWidth - noBtn.offsetWidth));
+            const randomY = Math.floor(Math.random() * (window.innerHeight - noBtn.offsetHeight));
+
+            // تأكد من أن الزر لا يخرج عن حدود الصفحة
+            const boundedX = Math.min(randomX, window.innerWidth - noBtn.offsetWidth);
+            const boundedY = Math.min(randomY, window.innerHeight - noBtn.offsetHeight);
+
+            noBtn.style.left = `${boundedX}px`;
+            noBtn.style.top = `${boundedY}px`;
+        });
+
+        // عند الضغط على "نعم" تظهر الرسالة العائمة
+        yesBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // منع انتشار الحدث
+            popup.style.display = 'block';
+        });
+
+        // عند الضغط على "نعم" في الأجهزة اللمسية، تمنع الضغط المزدوج
+        yesBtn.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            popup.style.display = 'block';
+        });
+
+        // عند الضغط على زر "X" في الرسالة، إغلاق الرسالة
+        popupClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            popup.style.display = 'none';
+        });
+
+        // إغلاق الرسالة عند الضغط في أي مكان خارجها
+        window.addEventListener('click', (event) => {
+            if (event.target === popup) {
+                popup.style.display = 'none';
+            }
+        });
+
+        // لا يحدث شيء عند الضغط على زر "لا"
+        noBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // منع انتشار الحدث
+            // لا شيء يحدث هنا
+        });
+
+        // عند الضغط على "لا" في الأجهزة اللمسية
+        noBtn.addEventListener('touchstart', (e) => {
+            e.stopPropagation(); // منع التفاعل المزدوج
+            // لا شيء يحدث هنا
+        });
+    </script>
+
+</body>
+<p>@Mohamed_Elsayed</p>
+</html>
