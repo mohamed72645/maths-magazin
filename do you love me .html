@@ -61,7 +61,7 @@
         }
 
         .btn-no {
-            position: absolute;
+            position: fixed;
             top: 200px;
             left: 50%;
             transform: translateX(-50%);
@@ -149,6 +149,7 @@
 
         // تحريك زر "لا" عند مرور الماوس
         noBtn.addEventListener('mouseenter', () => {
+            // حساب موقع عشوائي للزر داخل حدود الشاشة
             const randomX = Math.floor(Math.random() * (window.innerWidth - noBtn.offsetWidth));
             const randomY = Math.floor(Math.random() * (window.innerHeight - noBtn.offsetHeight));
 
@@ -199,5 +200,7 @@
     </script>
 
 </body>
-<p>@Mohamed_Elsayed</p>
 </html>
+
+<p>@Mohamed Elsayed</p>
+
