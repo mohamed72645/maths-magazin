@@ -147,8 +147,13 @@
         const popup = document.getElementById('popup');
         const popupClose = document.getElementById('popup-close');
 
+        let canMove = true; // متغير لتحديد إذا كان يمكن تحريك الزر
+        let movedOnce = false; // متغير للتحقق ما إذا كان الزر تحرك بالفعل
+
         // تحريك زر "لا" عند مرور الماوس
         noBtn.addEventListener('mouseenter', () => {
+            if (!canMove) return; // إذا كان التحريك غير مسموح به، لا تتحرك الزر
+
             // حساب موقع عشوائي للزر داخل حدود الشاشة
             const randomX = Math.floor(Math.random() * (window.innerWidth - noBtn.offsetWidth));
             const randomY = Math.floor(Math.random() * (window.innerHeight - noBtn.offsetHeight));
@@ -159,6 +164,13 @@
 
             noBtn.style.left = `${boundedX}px`;
             noBtn.style.top = `${boundedY}px`;
+
+            // بعد تحريك الزر، تمكين الضغط على الفراغ
+            if (!movedOnce) {
+                // نضغط على الخلفية بشكل تلقائي
+                document.body.click();
+                movedOnce = true; // الزر تحرك مرة واحدة
+            }
         });
 
         // عند الضغط على "نعم" تظهر الرسالة العائمة
@@ -197,10 +209,15 @@
             e.stopPropagation(); // منع التفاعل المزدوج
             // لا شيء يحدث هنا
         });
+
+        // عند الضغط في الفراغ، يسمح بتحريك الزر مرة أخرى
+        window.addEventListener('click', () => {
+            canMove = true; // تفعيل إمكانية تحريك الزر
+        });
     </script>
 
 </body>
 </html>
 
-<p>@Mohamed Elsayed</p>
+<p>@Mohamed_Elsayed</p>
 
