@@ -1,0 +1,833 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستر محمد السيد - معلم الرياضيات</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Canvas Confetti for Math Quiz Rewards -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Math Geometric Pattern Background */
+        .math-bg {
+            background-color: #0f172a;
+            background-image: radial-gradient(#38bdf8 1px, transparent 1px), radial-gradient(#818cf8 1px, #0f172a 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .blue-purple-gradient {
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+        }
+
+        .card-dark-glass {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .floating-element {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .floating-element-delayed {
+            animation: float 6s ease-in-out infinite 2s;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen antialiased selection:bg-amber-400 selection:text-slate-900">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Teacher Title -->
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="w-12 h-12 rounded-2xl blue-purple-gradient flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-indigo-500/30">
+                        <i class="fa-solid font-bold fa-calculator"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl sm:text-2xl font-black text-white tracking-wide block">مستر محمد السيد</span>
+                        <span class="text-xs text-amber-400 font-semibold block">معلم الرياضيات</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links (Desktop) -->
+                <div class="hidden md:flex items-center space-x-8 space-x-reverse font-bold text-sm">
+                    <a href="#gallery" class="text-slate-300 hover:text-amber-400 transition-colors">معرض الأنشطة</a>
+                    <a href="#features" class="text-slate-300 hover:text-amber-400 transition-colors">رؤيتنا التعليمية</a>
+                    <a href="#quiz" class="text-slate-300 hover:text-amber-400 transition-colors">تحدي المادة 📐</a>
+                    <a href="#contact" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold transition-all shadow-md shadow-amber-500/20">تواصل معنا</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobileMenuBtn" class="text-slate-300 hover:text-white p-2 text-2xl focus:outline-none">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobileMenu" class="hidden md:hidden bg-slate-800 border-b border-slate-700 px-4 pt-3 pb-6 space-y-3 font-semibold text-center">
+            <a href="#gallery" class="block py-2 text-slate-200 hover:text-amber-400">معرض الأنشطة</a>
+            <a href="#features" class="block py-2 text-slate-200 hover:text-amber-400">رؤيتنا التعليمية</a>
+            <a href="#quiz" class="block py-2 text-slate-200 hover:text-amber-400">تحدي المادة 📐</a>
+            <a href="#contact" class="block py-2 text-amber-400 font-bold">تواصل معنا</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden math-bg pt-12 pb-20 lg:pt-16 lg:pb-32">
+        <!-- Floating Math Icons Background Decor -->
+        <div class="absolute inset-0 pointer-events-none opacity-20">
+            <span class="absolute top-10 right-10 text-6xl text-amber-400 floating-element font-mono" dir="ltr">π</span>
+            <span class="absolute top-1/3 left-12 text-5xl text-blue-400 floating-element-delayed font-mono" dir="ltr">√x</span>
+            <span class="absolute bottom-16 right-1/4 text-6xl text-purple-400 floating-element font-mono" dir="ltr">∑</span>
+            <span class="absolute top-1/2 right-12 text-4xl text-emerald-400 floating-element-delayed font-mono" dir="ltr">f(x)</span>
+            <span class="absolute bottom-10 left-1/3 text-5xl text-rose-400 floating-element font-mono" dir="ltr">x² + y² = r²</span>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Content Column -->
+                <div class="lg:col-span-7 text-center lg:text-right space-y-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 font-bold text-sm mb-2">
+                        <span class="flex h-2.5 w-2.5 relative">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+                        </span>
+                        <span>عام دراسي جديد مفعم بالحيوية والتفوق 🚀</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+                        رحلتك نحو قمة التفوق في <br>
+                        <span class="gold-gradient-text">مادة الرياضيات 📐</span>
+                    </h1>
+
+                    <p class="text-slate-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        مع <strong class="text-white font-bold">مستر محمد السيد</strong>، تتحول الرياضيات من مجرد قوانين إلى ألعاب تفاعلية، استكشاف ممتع، وفهم عميق يضمن بناء شخصية رياضية متميزة لكل طالب.
+                    </p>
+
+                    <!-- Features Badges -->
+                    <div class="pt-2 flex flex-wrap justify-center lg:justify-start gap-4 text-xs sm:text-sm font-bold">
+                        <div class="px-4 py-2 rounded-xl bg-slate-800/90 border border-slate-700 text-slate-200 flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap text-amber-400 text-lg"></i>
+                            <span>شرح مبسط وشامل</span>
+                        </div>
+                        <div class="px-4 py-2 rounded-xl bg-slate-800/90 border border-slate-700 text-slate-200 flex items-center gap-2">
+                            <i class="fa-solid fa-dice text-purple-400 text-lg"></i>
+                            <span>تعلم باللعب والأنشطة</span>
+                        </div>
+                        <div class="px-4 py-2 rounded-xl bg-slate-800/90 border border-slate-700 text-slate-200 flex items-center gap-2">
+                            <i class="fa-solid fa-brain text-blue-400 text-lg"></i>
+                            <span>تطوير التفكير المنطقي</span>
+                        </div>
+                    </div>
+
+                    <!-- Call To Actions -->
+                    <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#quiz" class="px-8 py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-base shadow-xl shadow-amber-500/20 hover:scale-105 transition-all text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-trophy text-lg"></i>
+                            <span>تحدي الرياضيات 🎯</span>
+                        </a>
+                        <a href="#gallery" class="px-8 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-base hover:scale-105 transition-all text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-images text-indigo-400"></i>
+                            <span>مشاهدة معرض الأنشطة</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Image Column - Teacher Profile Picture -->
+                <div class="lg:col-span-5 flex justify-center relative">
+                    <div class="relative w-full max-w-md">
+                        <!-- Glow effect behind image -->
+                        <div class="absolute -inset-2 rounded-3xl bg-gradient-to-r from-amber-500 via-indigo-500 to-blue-600 opacity-30 blur-2xl animate-pulse"></div>
+                        
+                        <!-- Teacher Main Image Holder -->
+                        <div class="relative rounded-3xl overflow-hidden border-2 border-amber-500/40 shadow-2xl bg-slate-800 group">
+                            <img src="https://lh3.googleusercontent.com/d/1DqS8Aam5TJ7_ni5EYXk0EbGUwXr4Gkq7" 
+                                 onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1DqS8Aam5TJ7_ni5EYXk0EbGUwXr4Gkq7';" 
+                                 alt="مستر محمد السيد - معلم الرياضيات" 
+                                 class="w-full h-[450px] object-cover transform group-hover:scale-105 transition-transform duration-500">
+                            
+                            <!-- Floating Badge on Image -->
+                            <div class="absolute bottom-4 left-4 right-4 bg-slate-900/90 backdrop-blur-md p-4 rounded-2xl border border-slate-700/80 text-center">
+                                <span class="text-amber-400 font-extrabold text-lg block">مستر محمد السيد 📐</span>
+                                <span class="text-xs text-slate-300 font-medium">معلم الرياضيات المتميز</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Activities Gallery Section -->
+    <section id="gallery" class="py-20 bg-slate-900 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center space-y-4 max-w-3xl mx-auto mb-12">
+                <span class="px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 font-bold text-xs">معرض الصور التفاعلي</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">سجل إنجازاتنا وأنشطتنا المتميزة 📸✨</h2>
+                <p class="text-slate-300 text-sm sm:text-base">نشارككم لقطات حية من تفاعل أبنائنا الطلاب في بداية العام وفي الأنشطة الصفية واللاصفية</p>
+            </div>
+
+            <!-- Filter Categories Tabs -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
+                <button onclick="filterGallery('all')" class="gallery-tab active px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-amber-500 text-slate-950 shadow-md" data-filter="all">
+                    🌟 جميع الأنشطة
+                </button>
+                <button onclick="filterGallery('start')" class="gallery-tab px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-slate-800 text-slate-300 hover:bg-slate-700" data-filter="start">
+                    🎉 بداية العام
+                </button>
+                <button onclick="filterGallery('classroom')" class="gallery-tab px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-slate-800 text-slate-300 hover:bg-slate-700" data-filter="classroom">
+                    🏫 نشاط صفي
+                </button>
+                <button onclick="filterGallery('games')" class="gallery-tab px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-slate-800 text-slate-300 hover:bg-slate-700" data-filter="games">
+                    🎲 نشاط لا صفي
+                </button>
+            </div>
+
+            <!-- Images Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="galleryGrid">
+
+                <!-- بداية العام - صورة 1 -->
+                <div class="gallery-item start card-dark-glass rounded-2xl overflow-hidden group hover:border-amber-500/50 transition-all duration-300 shadow-xl" data-category="start">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1ZX-8sEiSEpz-EW4V9aaIt-h451GJDqX9', 'بداية العام الدراسي والترحاب بالطلاب 🎉')">
+                        <img src="https://lh3.googleusercontent.com/d/1ZX-8sEiSEpz-EW4V9aaIt-h451GJDqX9" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1ZX-8sEiSEpz-EW4V9aaIt-h451GJDqX9';" alt="بداية العام" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">بداية العام</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">استقبال حافل وتوزيع البهجة 🎉</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بداية العام - صورة 2 -->
+                <div class="gallery-item start card-dark-glass rounded-2xl overflow-hidden group hover:border-amber-500/50 transition-all duration-300 shadow-xl" data-category="start">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1uzZ2VjO1Q5pOqWchTDlewqrx-SE3vkoo', 'فعاليات استقبال العام الدراسي الجديد')">
+                        <img src="https://lh3.googleusercontent.com/d/1uzZ2VjO1Q5pOqWchTDlewqrx-SE3vkoo" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1uzZ2VjO1Q5pOqWchTDlewqrx-SE3vkoo';" alt="بداية العام" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">بداية العام</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">أجواء إيجابية وابتسامات الطلاب ❤️</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بداية العام - صورة 3 -->
+                <div class="gallery-item start card-dark-glass rounded-2xl overflow-hidden group hover:border-amber-500/50 transition-all duration-300 shadow-xl" data-category="start">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1MZgTTqBk22P5ZS4NG4YZJGgecAWnAbci', 'تحفيز الطلاب وإشاعة روح التفوق')">
+                        <img src="https://lh3.googleusercontent.com/d/1MZgTTqBk22P5ZS4NG4YZJGgecAWnAbci" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1MZgTTqBk22P5ZS4NG4YZJGgecAWnAbci';" alt="بداية العام" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">بداية العام</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">روح التعاون والعمل منذ اليوم الأول 🌟</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بداية العام - صورة 4 -->
+                <div class="gallery-item start card-dark-glass rounded-2xl overflow-hidden group hover:border-amber-500/50 transition-all duration-300 shadow-xl" data-category="start">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1-6m1k7q31g_CJpVo4k3LRURgCLbp3jd4', 'انطلاقة قوية نحو النجاح')">
+                        <img src="https://lh3.googleusercontent.com/d/1-6m1k7q31g_CJpVo4k3LRURgCLbp3jd4" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1-6m1k7q31g_CJpVo4k3LRURgCLbp3jd4';" alt="بداية العام" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">بداية العام</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">فرحة الانطلاقة في العام الدراسي الجديد 🎓</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نشاط صفي - صورة 1 -->
+                <div class="gallery-item classroom card-dark-glass rounded-2xl overflow-hidden group hover:border-blue-500/50 transition-all duration-300 shadow-xl" data-category="classroom">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1qXro-h8OipIXPm0hh0iIBZxT0ws_eLxg', 'تفاعل صفي ومجموعات حل مسائل الرياضيات')">
+                        <img src="https://lh3.googleusercontent.com/d/1qXro-h8OipIXPm0hh0iIBZxT0ws_eLxg" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1qXro-h8OipIXPm0hh0iIBZxT0ws_eLxg';" alt="نشاط صفي" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-blue-500 text-white font-bold text-xs">نشاط صفي</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">مجموعات العمل التفاعلية وحل التمارين 📚</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نشاط صفي - صورة 2 -->
+                <div class="gallery-item classroom card-dark-glass rounded-2xl overflow-hidden group hover:border-blue-500/50 transition-all duration-300 shadow-xl" data-category="classroom">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1IUA9BQLWw8L-T7p_iBzOl8YxFBkHl80V', 'متابعة مباشرة وإرشادات مستر محمد داخل الفصل')">
+                        <img src="https://lh3.googleusercontent.com/d/1IUA9BQLWw8L-T7p_iBzOl8YxFBkHl80V" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1IUA9BQLWw8L-T7p_iBzOl8YxFBkHl80V';" alt="نشاط صفي" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-blue-500 text-white font-bold text-xs">نشاط صفي</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">مناقشة الأفكار وتطبيق المفاهيم الرياضية ✏️</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نشاط لا صفي - صورة 1 -->
+                <div class="gallery-item games card-dark-glass rounded-2xl overflow-hidden group hover:border-purple-500/50 transition-all duration-300 shadow-xl" data-category="games">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/16CpajfxTzzbJTOmiO9X_JYzwokruXEWS', 'مسابقات وألعاب لاصفية تفاعلية للرياضيات')">
+                        <img src="https://lh3.googleusercontent.com/d/16CpajfxTzzbJTOmiO9X_JYzwokruXEWS" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=16CpajfxTzzbJTOmiO9X_JYzwokruXEWS';" alt="نشاط لا صفي" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-purple-500 text-white font-bold text-xs">نشاط لا صفي</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">ألعاب تطبيقية وأنشطة تفاعلية 🎲</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نشاط لا صفي - صورة 2 -->
+                <div class="gallery-item games card-dark-glass rounded-2xl overflow-hidden group hover:border-purple-500/50 transition-all duration-300 shadow-xl" data-category="games">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Zaxv_5MlCX-48aFmbcOZU9pHd9bA5PPX', 'أنشطة حركية ورياضية لتنشيط الذهن')">
+                        <img src="https://lh3.googleusercontent.com/d/1Zaxv_5MlCX-48aFmbcOZU9pHd9bA5PPX" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1Zaxv_5MlCX-48aFmbcOZU9pHd9bA5PPX';" alt="نشاط لا صفي" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-purple-500 text-white font-bold text-xs">نشاط لا صفي</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">التعلم بالحركة والتفكير التنافسي 🏃‍♂️</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نشاط لا صفي - صورة 3 -->
+                <div class="gallery-item games card-dark-glass rounded-2xl overflow-hidden group hover:border-purple-500/50 transition-all duration-300 shadow-xl" data-category="games">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/15AMllpvQWfB0a9F6cdmX0RbwDdx-IUXi', 'مشاركة الطلاب والعمل الجماعي في الساحة')">
+                        <img src="https://lh3.googleusercontent.com/d/15AMllpvQWfB0a9F6cdmX0RbwDdx-IUXi" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=15AMllpvQWfB0a9F6cdmX0RbwDdx-IUXi';" alt="نشاط لا صفي" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-purple-500 text-white font-bold text-xs">نشاط لا صفي</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">مسابقات ومنافسات حماسية بين الفرق 🏆</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نشاط لا صفي - صورة 4 -->
+                <div class="gallery-item games card-dark-glass rounded-2xl overflow-hidden group hover:border-purple-500/50 transition-all duration-300 shadow-xl" data-category="games">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Ywf1uledrlbu03k_vBMsn_-kerUv_z53', 'تحديات ذكاء وسرعة البديهة للطلاب')">
+                        <img src="https://lh3.googleusercontent.com/d/1Ywf1uledrlbu03k_vBMsn_-kerUv_z53" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1Ywf1uledrlbu03k_vBMsn_-kerUv_z53';" alt="نشاط لا صفي" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-purple-500 text-white font-bold text-xs">نشاط لا صفي</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">تطبيق النظريات الرياضية في قالب ممتع 💡</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نشاط لا صفي - صورة 5 -->
+                <div class="gallery-item games card-dark-glass rounded-2xl overflow-hidden group hover:border-purple-500/50 transition-all duration-300 shadow-xl" data-category="games">
+                    <div class="relative h-64 overflow-hidden bg-slate-800 cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1AnnOU8wuMIKDQrU6Fyix8mFkcy5MAIOo', 'تكريم الفائزين والاحتفال بالتميز')">
+                        <img src="https://lh3.googleusercontent.com/d/1AnnOU8wuMIKDQrU6Fyix8mFkcy5MAIOo" onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1AnnOU8wuMIKDQrU6Fyix8mFkcy5MAIOo';" alt="نشاط لا صفي" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60"></div>
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-purple-500 text-white font-bold text-xs">نشاط لا صفي</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <h3 class="font-bold text-sm">تكريم المجموعات الفائزة وتشجيع المستمر 🎖️</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Educational Vision & Features -->
+    <section id="features" class="py-20 bg-slate-800/40 relative border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center space-y-4 max-w-3xl mx-auto mb-16">
+                <span class="px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-xs">رؤيتنا في التدريس</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">لماذا تميزت فصول الرياضيات معنا؟ 💡</h2>
+                <p class="text-slate-300 text-sm sm:text-base">نعتمد على استراتيجيات حديثة تناسب جميع الطلاب وتمنح الطالب ثقة كاملة في قدراته الرياضية</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="card-dark-glass p-8 rounded-3xl space-y-4 border border-slate-700/80 hover:border-amber-500/50 transition-all hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">التعلم باللعب والتفاعل</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        نحول المسائل والرياضيات إلى ألعاب تفاعلية ممتعة لترسيخ الفهم بلا حفظ أو تلقين.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="card-dark-glass p-8 rounded-3xl space-y-4 border border-slate-700/80 hover:border-blue-500/50 transition-all hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-shapes"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">تبسيط المفاهيم</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        تقديم المفاهيم بروابط بصرية وتطبيقات عملية تجعل مادة الرياضيات سلسة ومحببة لجميع الطلاب.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="card-dark-glass p-8 rounded-3xl space-y-4 border border-slate-700/80 hover:border-purple-500/50 transition-all hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">تطوير التفكير المنطقي</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        تدريب الطالب على أساليب التفكير والتحليل الرياضي وحل المشكلات بثقة واقتدار.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="card-dark-glass p-8 rounded-3xl space-y-4 border border-slate-700/80 hover:border-emerald-500/50 transition-all hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">تحفيز وتكريم مستمر</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        مكافآت وهدايا دورية للمتميزين والمجتهدين لغرس روح المنافسة الشريفة والرغبة المستمرة في التفوق.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Interactive Math Quiz Widget for Students -->
+    <section id="quiz" class="py-20 bg-slate-900 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="card-dark-glass rounded-3xl p-6 sm:p-10 border-2 border-indigo-500/40 relative overflow-hidden shadow-2xl">
+                <!-- Background Glow -->
+                <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="text-center space-y-3 mb-8">
+                    <span class="px-4 py-1.5 rounded-full bg-amber-500/10 text-amber-400 font-extrabold text-xs">تحدي طلاب مستر محمد 🎯</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white">اختبر معلوماتك الرياضية السريعة!</h2>
+                    <p class="text-slate-400 text-sm">أسئلة تفاعلية سريعة وممتعة لاختبار ذكائك وسرعة بديهتك. هل تستطيع الحصول على النتيجة الكاملة؟</p>
+                </div>
+
+                <!-- Quiz Box -->
+                <div id="quizContainer" class="bg-slate-900/90 rounded-2xl p-6 border border-slate-700 space-y-6">
+                    <!-- Progress Header -->
+                    <div class="flex justify-between items-center text-xs text-slate-400 font-bold border-b border-slate-800 pb-3">
+                        <span id="quizQuestionCount">السؤال 1 من 4</span>
+                        <span id="quizScoreText" class="text-amber-400 font-mono">النقاط: 0</span>
+                    </div>
+
+                    <!-- Question Text -->
+                    <div id="quizQuestionText" class="text-lg sm:text-xl font-extrabold text-white text-center py-2">
+                        جاري تحميل السؤال...
+                    </div>
+
+                    <!-- Answers Options Grid -->
+                    <div id="quizOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-3" dir="ltr">
+                        <!-- Dynamic Buttons rendered by JS -->
+                    </div>
+
+                    <!-- Feedback message -->
+                    <div id="quizFeedback" class="hidden text-center p-3 rounded-xl font-bold text-sm"></div>
+                </div>
+
+                <!-- Quiz Results Box (Hidden initially) -->
+                <div id="quizResultBox" class="hidden text-center space-y-6 py-6">
+                    <div class="text-6xl text-amber-400 animate-bounce">🏆</div>
+                    <h3 class="text-2xl font-black text-white" id="quizResultTitle">أحسنت يا بطل!</h3>
+                    <p class="text-slate-300 text-base" id="quizResultDesc">لقد أتممت التحدي بنجاح متميز.</p>
+                    <button onclick="restartQuiz()" class="px-8 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm transition-all shadow-lg">
+                        إعادة التحدي 🔄
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Embedded Google Form Section -->
+    <section id="form-section" class="py-16 bg-slate-800/60 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-3 mb-8">
+                <span class="px-4 py-1.5 rounded-full bg-purple-500/10 text-purple-400 font-bold text-xs">تواصل وتسجيل الطلاب</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">استمارة التسجيل والتواصل 📝</h2>
+                <p class="text-slate-400 text-sm">يسعدنا تسجيل بياناتكم والتواصل معكم بسهولة من خلال النموذج التالي</p>
+            </div>
+
+            <!-- Google Form Embed Container -->
+            <div class="card-dark-glass p-3 sm:p-6 rounded-3xl border border-slate-700/80 shadow-2xl relative overflow-hidden">
+                <div class="w-full overflow-hidden rounded-2xl bg-white shadow-inner">
+                    <iframe 
+                        src="https://forms.gle/4BDBi5gTfh6vxv5u7" 
+                        width="100%" 
+                        height="700" 
+                        frameborder="0" 
+                        marginheight="0" 
+                        marginwidth="0"
+                        class="w-full border-0 rounded-2xl min-h-[600px] sm:min-h-[700px]"
+                        title="استمارة التسجيل والتواصل">
+                        جاري تحميل النموذج...
+                    </iframe>
+                </div>
+                <div class="mt-4 text-center">
+                    <a href="https://forms.gle/4BDBi5gTfh6vxv5u7" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition-all shadow-md hover:scale-105">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>فتح الاستمارة في نافذة خارجية</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer id="contact" class="bg-slate-950 border-t border-slate-800 text-slate-400 py-16 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
+                
+                <!-- Brand Info -->
+                <div class="md:col-span-5 space-y-4">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <div class="w-10 h-10 rounded-xl blue-purple-gradient flex items-center justify-center text-white font-black text-xl">
+                            📐
+                        </div>
+                        <span class="text-2xl font-black text-white">مستر محمد السيد</span>
+                    </div>
+                    <p class="text-sm leading-relaxed text-slate-400">
+                        معلم الرياضيات. نسعى دائماً لتقديم تجربة تعليمية متميزة تبني العقول وتسهّل الرياضيات بالأنشطة والتفاعل.
+                    </p>
+
+                    <!-- Contact Details Badges -->
+                    <div class="space-y-2 text-sm text-slate-300 font-semibold pt-2">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-amber-400"></i>
+                            <span>الهاتف / الواتساب: </span>
+                            <div class="flex flex-col sm:flex-row gap-2 font-mono" dir="ltr">
+                                <a href="https://api.whatsapp.com/send?phone=201128233656" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline">+20 112 823 3656</a>
+                                <span class="hidden sm:inline text-slate-500">|</span>
+                                <a href="https://api.whatsapp.com/send?phone=201095679621" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline">+20 109 567 9621</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="flex items-center gap-3 pt-3">
+                        <a id="whatsappBtnHeader" href="https://api.whatsapp.com/send?phone=201128233656" target="_blank" rel="noopener noreferrer" title="واتساب 1" class="w-11 h-11 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white flex items-center justify-center text-xl transition-all shadow-md">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a id="whatsappBtnHeader2" href="https://api.whatsapp.com/send?phone=201095679621" target="_blank" rel="noopener noreferrer" title="واتساب 2" class="w-11 h-11 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white flex items-center justify-center text-xl transition-all shadow-md">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a id="facebookBtnHeader" href="https://www.facebook.com/mohamed.elsayed726120000?mibextid=rS40aB7S9Ucbxw6v" target="_blank" rel="noopener noreferrer" title="فيسبوك" class="w-11 h-11 rounded-xl bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white flex items-center justify-center text-xl transition-all shadow-md">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a id="youtubeBtnHeader" href="https://youtube.com/@mr-mohamed-elsayed1?si=fqeeoKD-H6HJQy6A" target="_blank" rel="noopener noreferrer" title="يوتيوب" class="w-11 h-11 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white flex items-center justify-center text-xl transition-all shadow-md">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="md:col-span-3 space-y-3">
+                    <h4 class="text-white font-bold text-base">روابط السريعة</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#gallery" class="hover:text-amber-400 transition-colors">معرض الأنشطة والفعاليات</a></li>
+                        <li><a href="#features" class="hover:text-amber-400 transition-colors">طريقتنا في التدريس</a></li>
+                        <li><a href="#quiz" class="hover:text-amber-400 transition-colors">تحدي الرياضيات للطلاب</a></li>
+                    </ul>
+                </div>
+
+                <!-- Fast Contact Action Card -->
+                <div class="md:col-span-4 space-y-4 bg-slate-900/90 p-6 rounded-2xl border border-slate-800">
+                    <h4 class="text-white font-bold text-base">تواصل مباشر مع أ. محمد السيد</h4>
+                    <p class="text-xs text-slate-400">لأي استفسار بخصوص المنهج أو متابعة الطلاب:</p>
+                    <div class="space-y-2">
+                        <a id="directWhatsappBtn1" href="https://api.whatsapp.com/send?phone=201128233656" target="_blank" rel="noopener noreferrer" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-all">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>واتساب (01128233656)</span>
+                        </a>
+                        <a id="directWhatsappBtn2" href="https://api.whatsapp.com/send?phone=201095679621" target="_blank" rel="noopener noreferrer" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg transition-all">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>واتساب (01095679621)</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright -->
+            <div class="mt-12 pt-8 border-t border-slate-800/80 text-center text-xs text-slate-300">
+                جميع الحقوق محفوظة © <span id="currentYear" class="font-mono"></span> - صفحة مستر محمد السيد (معلم الرياضيات) 📐✨
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal for Full Image View -->
+    <div id="lightbox" class="fixed inset-0 z-50 hidden bg-slate-950/95 backdrop-blur-lg flex items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-6 left-6 text-white text-3xl hover:text-amber-400 transition-colors">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="max-w-4xl w-full text-center space-y-4">
+            <img id="lightboxImg" src="" alt="عرض مكبر" class="max-h-[80vh] mx-auto rounded-2xl shadow-2xl border border-slate-700 object-contain">
+            <p id="lightboxCaption" class="text-amber-400 font-bold text-base sm:text-lg"></p>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-emerald-500 text-slate-950 px-6 py-3.5 rounded-2xl font-black text-sm shadow-2xl items-center gap-2 animate-bounce">
+        <i class="fa-solid fa-circle-check text-lg"></i>
+        <span id="toastMsg">تم الإرسال بنجاح!</span>
+    </div>
+
+    <script>
+        // Teacher Contact Information Config
+        const CONTACT_CONFIG = {
+            whatsappUrl1: "https://api.whatsapp.com/send?phone=201128233656",
+            whatsappUrl2: "https://api.whatsapp.com/send?phone=201095679621",
+            facebookUrl: "https://www.facebook.com/mohamed.elsayed726120000?mibextid=rS40aB7S9Ucbxw6v",
+            youtubeUrl: "https://youtube.com/@mr-mohamed-elsayed1?si=fqeeoKD-H6HJQy6A"
+        };
+
+        // Initialize Contact Links dynamically
+        function applyContactConfig() {
+            const waHeader1 = document.getElementById('whatsappBtnHeader');
+            if (waHeader1) waHeader1.href = CONTACT_CONFIG.whatsappUrl1;
+
+            const waHeader2 = document.getElementById('whatsappBtnHeader2');
+            if (waHeader2) waHeader2.href = CONTACT_CONFIG.whatsappUrl2;
+
+            const directWa1 = document.getElementById('directWhatsappBtn1');
+            if (directWa1) directWa1.href = CONTACT_CONFIG.whatsappUrl1;
+
+            const directWa2 = document.getElementById('directWhatsappBtn2');
+            if (directWa2) directWa2.href = CONTACT_CONFIG.whatsappUrl2;
+
+            const fbHeader = document.getElementById('facebookBtnHeader');
+            if (fbHeader) fbHeader.href = CONTACT_CONFIG.facebookUrl;
+
+            const ytHeader = document.getElementById('youtubeBtnHeader');
+            if (ytHeader) ytHeader.href = CONTACT_CONFIG.youtubeUrl;
+        }
+
+        // Set dynamic current year in English digits
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Custom Toast Notification
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = msg;
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3500);
+        }
+
+        // Gallery Filtering
+        function filterGallery(category) {
+            const tabs = document.querySelectorAll('.gallery-tab');
+            tabs.forEach(tab => {
+                if(tab.getAttribute('data-filter') === category) {
+                    tab.classList.add('bg-amber-500', 'text-slate-950', 'shadow-md');
+                    tab.classList.remove('bg-slate-800', 'text-slate-300');
+                } else {
+                    tab.classList.remove('bg-amber-500', 'text-slate-950', 'shadow-md');
+                    tab.classList.add('bg-slate-800', 'text-slate-300');
+                }
+            });
+
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                if(category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Lightbox Modal functions
+        function openLightbox(imgSrc, caption) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+
+            lightboxImg.src = imgSrc;
+            lightboxCaption.textContent = caption;
+            lightbox.classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+        }
+
+        // Interactive Student Quiz Data
+        const quizQuestions = [
+            {
+                question: "ما هو المعكوس الجمعي للعدد <span dir='ltr' class='inline-block font-mono text-amber-300 bg-slate-800 px-2 py-0.5 rounded'>-5</span> ؟ 📐",
+                options: ["5", "-5", "0", "1"],
+                correct: 0
+            },
+            {
+                question: "مجموع قياسات الزوايا الداخلة للمثلث تساوي: 🔺",
+                options: ["180°", "90°", "360°", "120°"],
+                correct: 0
+            },
+            {
+                question: "في الشبكة الإحداثية، إحداثيات نقطة الأصل هي: 🎯",
+                options: ["(0, 0)", "(1, 1)", "(1, 0)", "(0, 1)"],
+                correct: 0
+            },
+            {
+                question: "إذا كانت <span dir='ltr' class='inline-block font-mono text-amber-300 bg-slate-800 px-2 py-0.5 rounded'>3x = 12</span> فإن قيمـة <span dir='ltr' class='inline-block font-mono text-amber-300 bg-slate-800 px-2 py-0.5 rounded'>x</span> تساوي: 💡",
+                options: ["4", "3", "36", "15"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const q = quizQuestions[currentQuestionIdx];
+            document.getElementById('quizQuestionCount').textContent = `السؤال ${currentQuestionIdx + 1} من ${quizQuestions.length}`;
+            document.getElementById('quizScoreText').textContent = `النقاط: ${score}`;
+            document.getElementById('quizQuestionText').innerHTML = q.question;
+            
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "p-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono font-bold text-base border border-slate-700 transition-all hover:scale-102 hover:border-amber-500/50";
+                btn.dir = "ltr";
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(idx);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quizFeedback').classList.add('hidden');
+        }
+
+        function checkAnswer(selectedIdx) {
+            const q = quizQuestions[currentQuestionIdx];
+            const feedback = document.getElementById('quizFeedback');
+            feedback.classList.remove('hidden');
+
+            if(selectedIdx === q.correct) {
+                score++;
+                feedback.className = "text-center p-3 rounded-xl font-bold text-sm bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
+                feedback.textContent = "إجابة صحيحة ممتاز جداً! 🌟🎉";
+                
+                if(typeof confetti === 'function') {
+                    confetti({ particleCount: 30, spread: 60, origin: { y: 0.7 } });
+                }
+            } else {
+                feedback.className = "text-center p-3 rounded-xl font-bold text-sm bg-rose-500/20 text-rose-400 border border-rose-500/40";
+                feedback.textContent = `إجابة خاطئة! الإجابة الصحيحة هي: (${q.options[q.correct]}) 💡`;
+            }
+
+            const btns = document.querySelectorAll('#quizOptions button');
+            btns.forEach(b => b.disabled = true);
+
+            setTimeout(() => {
+                currentQuestionIdx++;
+                if(currentQuestionIdx < quizQuestions.length) {
+                    loadQuestion();
+                } else {
+                    showQuizResults();
+                }
+            }, 1800);
+        }
+
+        function showQuizResults() {
+            document.getElementById('quizContainer').classList.add('hidden');
+            const resultBox = document.getElementById('quizResultBox');
+            resultBox.classList.remove('hidden');
+
+            const title = document.getElementById('quizResultTitle');
+            const desc = document.getElementById('quizResultDesc');
+
+            if(score === quizQuestions.length) {
+                title.textContent = "عبقري الرياضيات الأول! 🏆✨";
+                desc.textContent = `لقدحصلت على العلامة الكاملة ${score}/${quizQuestions.length}. مستر محمد السيد يفخر بك!`;
+                if(typeof confetti === 'function') {
+                    confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+                }
+            } else {
+                title.textContent = "محاولة ممتازة! 👍";
+                desc.textContent = `حصلت على ${score} من ${quizQuestions.length}. راجع الدروس معنا وتحدّ نفسك مرة أخرى!`;
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIdx = 0;
+            score = 0;
+            document.getElementById('quizResultBox').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        // Initialize contact links and quiz on load
+        window.onload = function() {
+            applyContactConfig();
+            loadQuestion();
+        };
+    </script>
+</body>
+</html>
+
+```
